@@ -1,0 +1,10 @@
+[package]
+name = "gnome_status_bar"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+gtk4 = { version = "0.8", package = "gtk4" }
+libadwaita = { version = "0.6", package = "libadwaita" }
+
+sysinfo = "0.30"
