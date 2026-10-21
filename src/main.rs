@@ -4,9 +4,9 @@ use gtk4::{Box, Label, Orientation};
 use sysinfo::System;
 
 fn main() {
-    // inicializar la aplicación de Libadwaita
+    // inicializar la aplicación de libadwaita
     let app = Application::builder()
-        .application_id("dev.gael.HealthBar")
+        .application_id("dev.chris.HealthBar")
         .build();
 
     app.connect_activate(build_ui);
@@ -14,16 +14,16 @@ fn main() {
 }
 
 fn build_ui(app: &Application) {
-    // 1. Obtener métricas del sistema
+    // métricas del sistema
     let mut sys = System::new_all();
     sys.refresh_cpu();
     sys.refresh_memory();
 
     let cpu_usage = sys.global_cpu_info().cpu_usage();
-    let total_mem = sys.total_memory() as f32 / 1024.0 / 1024.0; // En GB
-    let used_mem = sys.used_memory() as f32 / 1024.0 / 1024.0;   // En GB
+    let total_mem = sys.total_memory() as f32 / 1024.0 / 1024.0; // GB
+    let used_mem = sys.used_memory() as f32 / 1024.0 / 1024.0;   // GB
 
-    // 2. Crear los widgets de GTK 4
+    // widgets de GTK 4
     let header = HeaderBar::new();
 
     let label_cpu = Label::builder()
@@ -49,7 +49,7 @@ fn build_ui(app: &Application) {
     main_box.append(&header);
     main_box.append(&content_box);
 
-    // 3. Crear la ventana nativa
+    // ventana
     let window = ApplicationWindow::builder()
         .application(app)
         .title("Salud del Sistema")
