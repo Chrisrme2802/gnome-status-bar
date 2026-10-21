@@ -16,7 +16,7 @@ impl CpuCollector {
 
     pub fn fetch(&mut self) -> CpuStats {
         // sysinfo necesario refrescar dos veces o dejar pasar un intervalo para calcular el delta real de uso de CPU
-        self.sys.refresh_cpu_all();
+        self.sys.refresh_cpu_usage();
 
         let usage_percentage = self.sys.global_cpu_info().cpu_usage();
         
