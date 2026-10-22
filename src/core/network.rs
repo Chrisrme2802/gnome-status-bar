@@ -12,19 +12,16 @@ impl NetworkCollector {
     }
 
     pub fn fetch(&mut self) -> NetworkStats {
-        // Refresca las métricas de tráfico en las interfaces
         self.networks.refresh();
 
         let mut primary_stats = NetworkStats::default();
 
-        // Buscamos la interfaz principal activa (Wi-Fi o Ethernet)
-        // Ignoramos la interfaz de loopback 'lo'
+        // interfaz ignorando a loopback
         for (interface_name, network) in &self.networks {
             if interface_name == "lo" {
                 continue;
             }
 
-            // Si encuentra una interfaz activa transmitiendo/recibiendo datos
             let rx = network.received();
             let tx = network.transmitted();
 
