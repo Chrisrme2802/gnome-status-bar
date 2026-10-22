@@ -56,6 +56,49 @@ pub struct NetworkStats {
     pub total_transmitted_bytes: u64,
 }
 
+/// gpu
+#[derive(Debug, Clone, Default)]
+pub struct GpuStats {
+    pub name: String,
+    pub usage_percentage: Option<f32>,
+    pub memory_used_mb: Option<u64>,
+    pub memory_total_mb: Option<u64>,
+    pub temperature_celsius: Option<f32>,
+}
+
+/// audio device
+#[derive(Debug, Clone, Default)]
+pub struct AudioDevice {
+    pub id: u32,     // pipewire / pulse
+    pub name: String,
+    pub description: String,
+    pub volume: u8,
+    pub is_muted: bool,
+    pub is_default: bool,
+}
+
+/// audio app
+#[derive(Debug, Clone, Default)]
+pub struct AppAudioStream {
+    pub id: u32,
+    pub app_name: String,
+    pub icon_name: String,
+    pub volume: u8,
+    pub is_muted: bool,
+}
+
+/// audio
+#[derive(Debug, Clone, Default)]
+pub struct AudioStats {
+    pub output_volume: u8,
+    pub is_output_muted: bool,
+    pub input_volume: u8,
+    pub is_input_muted: bool,
+    pub output_devices: Vec<AudioDevice>,
+    pub input_devices: Vec<AudioDevice>,
+    pub app_streams: Vec<AppAudioStream>,
+}
+
 /// memory methods
 impl MemoryStats {
     pub fn used_gb(&self) -> f32 {
@@ -140,6 +183,18 @@ impl NetworkStats {
             format!("{:.2} MB/s", mb)
         } else {
             format!("{:.1} KB/s", kb)
+        }
+    }
+}
+
+/// gpu methods
+impl GpuStats {
+    pub fn memory_percentage(&self) -> Option<f32> {
+        match (self.memory_used_mb, self.memory_total_mb) {
+            (Some(used), Some(total)) if total > 0 => {
+                Some((used as f32 / total as f32) * 100.0)
+            }
+            _ => None,
         }
     }
 }
